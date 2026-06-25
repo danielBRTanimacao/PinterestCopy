@@ -1,0 +1,24 @@
+type Pin {
+    id: ID!
+    title: String!
+    description: String
+    imageUrl: String!
+    likesCount: Int!
+    createdAt: String
+}
+
+input RequestPinInput {
+    title: String!
+    description: String
+    imageUrl: String!
+}
+
+type Query {
+    mainFeed: [Pin!]!
+    pinById(id: ID!): Pin
+}
+
+type Mutation {
+    createPin(data: RequestPinInput!): Pin!
+    likePin(id: ID!): Int!
+}

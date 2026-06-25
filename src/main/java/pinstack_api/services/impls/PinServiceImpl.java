@@ -36,6 +36,8 @@ public class PinServiceImpl implements PinService{
         entity.setDescription(data.description());
         entity.setImageUrl(data.imageUrl());
 
+        repository.save(entity);
+
         return ResponsePinDTO.fromEntity(entity);
     }
 

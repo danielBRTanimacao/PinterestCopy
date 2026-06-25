@@ -1,0 +1,10 @@
+services:
+    db:
+        image: mongo:latest
+        container_name: pinstack-mongo
+        environment:
+            - MONGO_INITDB_ROOT_USERNAME=mongo
+            - MONGO_INITDB_ROOT_PASSWORD=password
+            - MONGO_INITDB_DATABASE=pinstack
+        ports:
+            - "27017:27017"
