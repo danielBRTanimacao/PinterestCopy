@@ -1,7 +1,6 @@
 package pinstack_api.services.impls;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -42,7 +41,13 @@ public class PinServiceImpl implements PinService{
 
     @Override
     public int likePinById(String id) {
-        throw new UnsupportedOperationException("Unimplemented method 'likePinById'");
+        PinEntity pin = repository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Pin not found with id: " + id));
+        
+        pin.setLikesCount(pin.getLikesCount() + 1);
+        repository.save(pin);
+        
+        return pin.getLikesCount();
     }
     
 }
