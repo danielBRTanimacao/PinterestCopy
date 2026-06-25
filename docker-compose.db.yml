@@ -14,10 +14,3 @@ services:
         container_name: pinstack-redis
         ports:
             - "6379:6379"
-
-    app:
-        build: .
-        depends_on:
-            - db
-        ports:
-            - "8080:8080"
