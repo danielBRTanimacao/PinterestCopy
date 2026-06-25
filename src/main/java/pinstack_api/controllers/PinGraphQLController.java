@@ -5,20 +5,20 @@ import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 
 import pinstack_api.DTOs.RequestPinDTO;
-import pinstack_api.entities.PinEntity;
+import pinstack_api.DTOs.ResponsePinDTO;
 
 import java.util.List;
 
 public interface PinGraphQLController {
 
     @QueryMapping
-    List<PinEntity> mainFeed();
+    List<ResponsePinDTO> mainFeed();
 
     @QueryMapping
-    PinEntity pinById(@Argument String id);
+    ResponsePinDTO pinById(@Argument String id);
 
     @MutationMapping
-    PinEntity createPin(@Argument RequestPinDTO data);
+    ResponsePinDTO createPin(@Argument RequestPinDTO data);
 
     @MutationMapping
     int likePin(@Argument String id);

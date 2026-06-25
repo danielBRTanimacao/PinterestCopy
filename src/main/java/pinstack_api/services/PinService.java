@@ -2,12 +2,12 @@ package pinstack_api.services;
 
 import java.util.List;
 
-import pinstack_api.DTOs.RequestPinDTO;
-import pinstack_api.entities.PinEntity;
+import pinstack_api.DTOs.*;
+
 
 public interface PinService {
-    List<PinEntity> getAllPins();
-    PinEntity getSpecificPin(String id);
-    PinEntity savePin(RequestPinDTO data);
+    List<ResponsePinDTO> getAllPins();
+    ResponsePinDTO getSpecificPin(String id);
+    ResponsePinDTO savePin(RequestPinDTO data);
     int likePinById(String id);
 }
