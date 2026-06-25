@@ -5,6 +5,8 @@ import graphql.GraphqlErrorBuilder;
 import graphql.schema.DataFetchingEnvironment;
 import org.springframework.graphql.data.method.annotation.GraphQlExceptionHandler;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.support.WebExchangeBindException;
+
 import pinstack_api.exceptions.raises.NotFoundException;
 import org.springframework.graphql.execution.ErrorType;
 
@@ -18,6 +20,15 @@ public class CustomGraphQLExceptionHandler {
                 .message(ex.getMessage())
                 .build();
     }
+
+    @GraphQlExceptionHandler(WebExchangeBindException.class)
+    public GraphQLError handleValidationException(WebExchangeBindException ex, DataFetchingEnvironment env) {
+        String errorMessage = ex.getBindingResult().getFieldErrors().get(0).getDefaultMessage();
+        return GraphqlErrorBuilder.newError(env)
+                .errorType(ErrorType.BAD_REQUEST)
+                .message(errorMessage)
+                .build();
+}
 
     @GraphQlExceptionHandler(IllegalArgumentException.class)
     public GraphQLError handleIllegalArgument(IllegalArgumentException ex, DataFetchingEnvironment env) {

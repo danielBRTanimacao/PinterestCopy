@@ -4,6 +4,7 @@ import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 
+import jakarta.validation.Valid;
 import pinstack_api.DTOs.RequestPinDTO;
 import pinstack_api.DTOs.ResponsePinDTO;
 
@@ -18,7 +19,7 @@ public interface PinGraphQLController {
     ResponsePinDTO pinById(@Argument String id);
 
     @MutationMapping
-    ResponsePinDTO createPin(@Argument RequestPinDTO data);
+    ResponsePinDTO createPin(@Argument @Valid RequestPinDTO data);
 
     @MutationMapping
     int likePin(@Argument String id);
