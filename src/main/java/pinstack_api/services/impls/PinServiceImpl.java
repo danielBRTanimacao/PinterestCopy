@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import pinstack_api.DTOs.RequestPinDTO;
 import pinstack_api.entities.PinEntity;
 import pinstack_api.services.PinService;
 
@@ -23,7 +24,7 @@ public class PinServiceImpl implements PinService{
     }
 
     @Override
-    public PinEntity savePin(String title, String description, String imageUrl) {
+    public PinEntity savePin(RequestPinDTO data) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'savePin'");
     }
