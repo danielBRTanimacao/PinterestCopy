@@ -13,7 +13,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Getter
 @Setter
 @Document(collection = "pins")
-public class Pin {
+public class PinEntity {
     
     @Id
     private String id;
