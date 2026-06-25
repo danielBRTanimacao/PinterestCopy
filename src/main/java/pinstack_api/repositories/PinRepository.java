@@ -1,5 +1,9 @@
 package pinstack_api.repositories;
 
-public class PinRepository {
+import org.springframework.data.mongodb.repository.MongoRepository;
+
+import pinstack_api.entities.Pin;
+
+public interface PinRepository extends MongoRepository<Pin, String> {
     
 }
