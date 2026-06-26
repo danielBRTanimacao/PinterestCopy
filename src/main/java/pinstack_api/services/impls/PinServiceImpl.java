@@ -30,11 +30,7 @@ public class PinServiceImpl implements PinService{
 
     @Override
     public ResponsePinDTO savePin(RequestPinDTO data) {
-        PinEntity entity = new PinEntity();
-
-        entity.setTitle(data.title());
-        entity.setDescription(data.description());
-        entity.setImageUrl(data.imageUrl());
+        PinEntity entity = RequestPinDTO.toSaveEntity(data);
 
         repository.save(entity);
 

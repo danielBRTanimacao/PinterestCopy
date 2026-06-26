@@ -4,6 +4,7 @@ import org.hibernate.validator.constraints.URL;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import pinstack_api.entities.PinEntity;
 
 public record RequestPinDTO(
     @NotBlank
@@ -16,4 +17,12 @@ public record RequestPinDTO(
     @NotBlank
     @URL(message = "The image URL must be a valid link.")
     String imageUrl
-) {}
+) {
+    public static PinEntity toSaveEntity(RequestPinDTO dto) {
+        PinEntity pin = new PinEntity();
+        pin.setTitle(dto.title());
+        pin.setDescription(dto.description());
+        pin.setImageUrl(dto.imageUrl());
+        return pin;
+    }
+}
