@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>PinStack Teste Front-end</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+    <body class="bg-gray-100 font-sans p-8">
+        <div class="max-w-4xl mx-auto">
+            <h1 class="text-3xl font-bold text-red-600 mb-8 text-center">
+                PinStack Teste Dev
+            </h1>
+
+            <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+                <h2 class="text-xl font-semibold mb-4 text-gray-700">
+                    Criar Novo Pin
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <input
+                        id="titleInput"
+                        type="text"
+                        placeholder="Título (mín. 3 letras)"
+                        class="p-2 border rounded"
+                    />
+                    <input
+                        id="descInput"
+                        type="text"
+                        placeholder="Descrição"
+                        class="p-2 border rounded"
+                    />
+                    <input
+                        id="urlInput"
+                        type="text"
+                        placeholder="URL da Imagem válida"
+                        class="p-2 border rounded"
+                    />
+                </div>
+                <button
+                    onclick="criarPin()"
+                    class="mt-4 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 font-medium"
+                >
+                    Enviar Mutation
+                </button>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-semibold text-gray-700">
+                        Feed Principal
+                    </h2>
+                    <button
+                        onclick="carregarFeed()"
+                        class="bg-gray-200 text-gray-700 px-3 py-1 rounded hover:bg-gray-300 text-sm font-medium"
+                    >
+                        Atualizar Query
+                    </button>
+                </div>
+                <div
+                    id="feedContainer"
+                    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"
+                ></div>
+            </div>
+        </div>
+
+        <script>
+            const GRAPHQL_URL = "http://localhost:8080/graphql";
+
+            async function carregarFeed() {
+                const queryGraphQL = {
+                    query: `
+                    query {
+                        mainFeed {
+                            id
+                            title
+                            imageUrl
+                            likesCount
+                        }
+                    }
+                `,
+                };
+
+                try {
+                    const response = await fetch(GRAPHQL_URL, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(queryGraphQL),
+                    });
+                    const res = await response.json();
+                    const pins = res.data.mainFeed;
+
+                    const container = document.getElementById("feedContainer");
+                    container.innerHTML = ""; // Limpa o feed antigo
+
+                    pins.forEach((pin) => {
+                        container.innerHTML += `
+                        <div class="bg-gray-50 p-4 rounded-lg border shadow-sm flex flex-col justify-between">
+                            <img src="${pin.imageUrl}" alt="${pin.title}" class="w-full h-40 object-cover rounded mb-2 onerror="this.src='https://placehold.co/400'">
+                            <h3 class="font-bold text-gray-800">${pin.title}</h3>
+                            <p class="text-sm text-gray-500 mt-1">❤️ ${pin.likesCount} curtidas</p>
+                        </div>
+                    `;
+                    });
+                } catch (err) {
+                    console.error("Erro ao carregar feed:", err);
+                }
+            }
+
+            async function criarPin() {
+                const title = document.getElementById("titleInput").value;
+                const description = document.getElementById("descInput").value;
+                const imageUrl = document.getElementById("urlInput").value;
+
+                const mutationGraphQL = {
+                    query: `
+                    mutation {
+                        createPin(data: {
+                            title: "${title}",
+                            description: "${description}",
+                            imageUrl: "${imageUrl}"
+                        }) {
+                            id
+                            title
+                        }
+                    }
+                `,
+                };
+
+                try {
+                    const response = await fetch(GRAPHQL_URL, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(mutationGraphQL),
+                    });
+                    const res = await response.json();
+
+                    if (res.errors) {
+                        alert("Erro de Validação: " + res.errors[0].message);
+                        return;
+                    }
+
+                    alert("Pin criado com sucesso!");
+                    document.getElementById("titleInput").value = "";
+                    document.getElementById("descInput").value = "";
+                    document.getElementById("urlInput").value = "";
+
+                    carregarFeed();
+                } catch (err) {
+                    console.error("Erro ao criar pin:", err);
+                }
+            }
+
+            carregarFeed();
+        </script>
+    </body>
+</html>
