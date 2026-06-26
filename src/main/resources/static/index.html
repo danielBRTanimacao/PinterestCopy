@@ -3,151 +3,678 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>PinStack Teste Front-end</title>
-        <script src="https://cdn.tailwindcss.com"></script>
+        <title>PinStack</title>
+        <link
+            rel="stylesheet"
+            href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css"
+        />
+        <style>
+            :root {
+                --ps-bg: #f5f5f4;
+                --ps-surface: #ffffff;
+                --ps-card: #ffffff;
+                --ps-border: #e5e5e4;
+                --ps-border-strong: #d1d1cf;
+                --ps-text: #1c1c1a;
+                --ps-text-2: #6b6b68;
+                --ps-text-3: #a3a3a0;
+                --ps-red: #e24b4a;
+                --ps-red-dark: #a32d2d;
+                --ps-red-bg: #fcebeb;
+                --ps-red-text: #791f1f;
+                --ps-input-bg: #f9f9f8;
+                --ps-sk-a: #eeeeec;
+                --ps-sk-b: #e5e5e3;
+                --ps-success: #3b6d11;
+                --ps-success-bg: #eaf3de;
+                --ps-topbar: rgba(255, 255, 255, 0.85);
+            }
+            [data-theme="dark"] {
+                --ps-bg: #18181a;
+                --ps-surface: #232326;
+                --ps-card: #2a2a2e;
+                --ps-border: #333338;
+                --ps-border-strong: #444449;
+                --ps-text: #f0f0ee;
+                --ps-text-2: #a3a3a0;
+                --ps-text-3: #6b6b68;
+                --ps-red: #f06160;
+                --ps-red-dark: #e24b4a;
+                --ps-red-bg: #3d1a1a;
+                --ps-red-text: #f09595;
+                --ps-input-bg: #1e1e21;
+                --ps-sk-a: #2a2a2e;
+                --ps-sk-b: #323236;
+                --ps-success: #97c459;
+                --ps-success-bg: #1a2e0e;
+                --ps-topbar: rgba(24, 24, 26, 0.85);
+            }
+            *,
+            *::before,
+            *::after {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            body {
+                font-family:
+                    system-ui,
+                    -apple-system,
+                    sans-serif;
+                background: var(--ps-bg);
+                color: var(--ps-text);
+                min-height: 100vh;
+                transition:
+                    background 0.2s,
+                    color 0.2s;
+            }
+            .topbar {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 12px 20px;
+                border-bottom: 0.5px solid var(--ps-border);
+                background: var(--ps-topbar);
+                backdrop-filter: blur(12px);
+                position: sticky;
+                top: 0;
+                z-index: 20;
+            }
+            .logo {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                font-size: 17px;
+                font-weight: 600;
+                color: var(--ps-text);
+                letter-spacing: -0.3px;
+            }
+            .logo i {
+                font-size: 22px;
+                color: var(--ps-red);
+            }
+            .topbar-right {
+                display: flex;
+                gap: 8px;
+                align-items: center;
+            }
+            .btn {
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                padding: 6px 13px;
+                border-radius: 8px;
+                border: 0.5px solid var(--ps-border-strong);
+                background: transparent;
+                color: var(--ps-text);
+                font-size: 13px;
+                font-weight: 500;
+                cursor: pointer;
+                line-height: 1;
+                transition:
+                    background 0.15s,
+                    border-color 0.15s,
+                    color 0.15s;
+            }
+            .btn:hover {
+                background: var(--ps-surface);
+                border-color: var(--ps-border-strong);
+            }
+            .btn i {
+                font-size: 16px;
+            }
+            .btn-red {
+                background: var(--ps-red);
+                color: #fff;
+                border-color: var(--ps-red);
+            }
+            .btn-red:hover {
+                background: var(--ps-red-dark);
+                border-color: var(--ps-red-dark);
+            }
+            .theme-btn {
+                width: 34px;
+                height: 34px;
+                padding: 0;
+                justify-content: center;
+            }
+            .theme-btn i {
+                font-size: 18px;
+            }
+            .badge {
+                display: inline-flex;
+                align-items: center;
+                gap: 4px;
+                padding: 3px 9px;
+                border-radius: 99px;
+                font-size: 11px;
+                font-weight: 500;
+                background: var(--ps-red-bg);
+                color: var(--ps-red-text);
+            }
+            .badge i {
+                font-size: 12px;
+            }
+            .content {
+                max-width: 1060px;
+                margin: 0 auto;
+                padding: 20px 16px 60px;
+            }
+            .create-wrap {
+                background: var(--ps-surface);
+                border: 0.5px solid var(--ps-border);
+                border-radius: 12px;
+                padding: 16px;
+                margin-bottom: 20px;
+                transition:
+                    background 0.2s,
+                    border-color 0.2s;
+            }
+            .create-head {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                cursor: pointer;
+                user-select: none;
+            }
+            .create-head h2 {
+                font-size: 14px;
+                font-weight: 500;
+                color: var(--ps-text);
+                display: flex;
+                align-items: center;
+                gap: 7px;
+            }
+            .create-head h2 i {
+                font-size: 17px;
+                color: var(--ps-red);
+            }
+            .chevron i {
+                font-size: 18px;
+                color: var(--ps-text-2);
+                transition: transform 0.2s;
+            }
+            .chevron.open i {
+                transform: rotate(180deg);
+            }
+            .create-body {
+                margin-top: 14px;
+                display: none;
+            }
+            .create-body.open {
+                display: block;
+            }
+            .fields {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+                gap: 10px;
+                margin-bottom: 12px;
+            }
+            input[type="text"] {
+                width: 100%;
+                height: 36px;
+                padding: 0 11px;
+                border: 0.5px solid var(--ps-border-strong);
+                border-radius: 8px;
+                background: var(--ps-input-bg);
+                color: var(--ps-text);
+                font-size: 13px;
+                outline: none;
+                transition:
+                    border-color 0.15s,
+                    box-shadow 0.15s,
+                    background 0.2s;
+            }
+            input[type="text"]:focus {
+                border-color: var(--ps-red);
+                box-shadow: 0 0 0 3px
+                    color-mix(in srgb, var(--ps-red) 18%, transparent);
+            }
+            input[type="text"]::placeholder {
+                color: var(--ps-text-3);
+            }
+            .create-foot {
+                display: flex;
+                justify-content: flex-end;
+                gap: 8px;
+            }
+            .section-head {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 14px;
+            }
+            .section-head h2 {
+                font-size: 14px;
+                font-weight: 500;
+                color: var(--ps-text);
+            }
+            .feed {
+                columns: 2;
+                column-gap: 12px;
+            }
+            @media (min-width: 520px) {
+                .feed {
+                    columns: 3;
+                }
+            }
+            @media (min-width: 780px) {
+                .feed {
+                    columns: 4;
+                }
+            }
+            .pin {
+                break-inside: avoid;
+                margin-bottom: 12px;
+                background: var(--ps-card);
+                border: 0.5px solid var(--ps-border);
+                border-radius: 12px;
+                overflow: hidden;
+                cursor: pointer;
+                transition:
+                    border-color 0.15s,
+                    background 0.2s;
+            }
+            .pin:hover {
+                border-color: var(--ps-border-strong);
+            }
+            .pin img {
+                width: 100%;
+                display: block;
+                object-fit: cover;
+            }
+            .pin-ph {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: var(--ps-sk-a);
+                color: var(--ps-text-3);
+            }
+            .pin-ph i {
+                font-size: 26px;
+            }
+            .pin-body {
+                padding: 9px 11px 11px;
+            }
+            .pin-title {
+                font-size: 13px;
+                font-weight: 500;
+                color: var(--ps-text);
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                margin-bottom: 3px;
+            }
+            .pin-likes {
+                display: flex;
+                align-items: center;
+                gap: 4px;
+                font-size: 12px;
+                color: var(--ps-text-2);
+            }
+            .pin-likes i {
+                font-size: 14px;
+                color: var(--ps-red);
+            }
+            .empty {
+                text-align: center;
+                padding: 48px 16px;
+                color: var(--ps-text-3);
+            }
+            .empty i {
+                font-size: 40px;
+                display: block;
+                margin-bottom: 12px;
+            }
+            .empty p {
+                font-size: 14px;
+            }
+            .skel-feed {
+                columns: 2;
+                column-gap: 12px;
+            }
+            @media (min-width: 520px) {
+                .skel-feed {
+                    columns: 3;
+                }
+            }
+            @media (min-width: 780px) {
+                .skel-feed {
+                    columns: 4;
+                }
+            }
+            .skel-card {
+                break-inside: avoid;
+                margin-bottom: 12px;
+                border-radius: 12px;
+                overflow: hidden;
+                border: 0.5px solid var(--ps-border);
+            }
+            @keyframes shimmer {
+                0% {
+                    background-position: -600px 0;
+                }
+                100% {
+                    background-position: 600px 0;
+                }
+            }
+            .skel-img,
+            .skel-line {
+                background: linear-gradient(
+                    90deg,
+                    var(--ps-sk-a) 25%,
+                    var(--ps-sk-b) 50%,
+                    var(--ps-sk-a) 75%
+                );
+                background-size: 1200px 100%;
+                animation: shimmer 1.6s infinite;
+            }
+            .skel-body {
+                padding: 9px 11px 11px;
+            }
+            .skel-line {
+                height: 11px;
+                border-radius: 4px;
+                margin: 5px 0;
+            }
+            .toast-area {
+                position: fixed;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+                z-index: 999;
+                pointer-events: none;
+            }
+            .toast {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                padding: 10px 16px;
+                border-radius: 10px;
+                font-size: 13px;
+                font-weight: 500;
+                border: 0.5px solid var(--ps-border);
+                background: var(--ps-surface);
+                color: var(--ps-text);
+                opacity: 0;
+                transform: translateY(8px);
+                transition:
+                    opacity 0.2s,
+                    transform 0.2s;
+                white-space: nowrap;
+            }
+            .toast.show {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            .toast i {
+                font-size: 16px;
+            }
+            .toast.ok i {
+                color: var(--ps-success);
+            }
+            .toast.err i {
+                color: var(--ps-red);
+            }
+        </style>
     </head>
-    <body class="bg-gray-100 font-sans p-8">
-        <div class="max-w-4xl mx-auto">
-            <h1 class="text-3xl font-bold text-red-600 mb-8 text-center">
-                PinStack Teste Dev
-            </h1>
-
-            <div class="bg-white p-6 rounded-lg shadow-md mb-8">
-                <h2 class="text-xl font-semibold mb-4 text-gray-700">
-                    Criar Novo Pin
-                </h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <input
-                        id="titleInput"
-                        type="text"
-                        placeholder="Título (mín. 3 letras)"
-                        class="p-2 border rounded"
-                    />
-                    <input
-                        id="descInput"
-                        type="text"
-                        placeholder="Descrição"
-                        class="p-2 border rounded"
-                    />
-                    <input
-                        id="urlInput"
-                        type="text"
-                        placeholder="URL da Imagem válida"
-                        class="p-2 border rounded"
-                    />
-                </div>
+    <body>
+        <header class="topbar">
+            <div class="logo">
+                <i class="ph ph-push-pin"></i>
+                PinStack
+            </div>
+            <div class="topbar-right">
+                <span class="badge"><i class="ph ph-lightning"></i> Dev</span>
+                <button class="btn" onclick="toggleCreate()" id="createBtn">
+                    <i class="ph ph-plus"></i> Novo pin
+                </button>
                 <button
-                    onclick="criarPin()"
-                    class="mt-4 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 font-medium"
+                    class="btn theme-btn"
+                    id="themeBtn"
+                    onclick="toggleTheme()"
+                    title="Alternar tema"
                 >
-                    Enviar Mutation
+                    <i class="ph ph-moon" id="themeIcon"></i>
                 </button>
             </div>
+        </header>
 
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-semibold text-gray-700">
-                        Feed Principal
-                    </h2>
-                    <button
-                        onclick="carregarFeed()"
-                        class="bg-gray-200 text-gray-700 px-3 py-1 rounded hover:bg-gray-300 text-sm font-medium"
-                    >
-                        Atualizar Query
-                    </button>
+        <main class="content">
+            <div class="create-wrap" id="createWrap">
+                <div class="create-head" onclick="toggleCreate()">
+                    <h2><i class="ph ph-pencil-simple"></i> Criar pin</h2>
+                    <span class="chevron" id="chevron"
+                        ><i class="ph ph-caret-up"></i
+                    ></span>
                 </div>
-                <div
-                    id="feedContainer"
-                    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"
-                ></div>
+                <div class="create-body" id="createBody">
+                    <div class="fields">
+                        <input
+                            type="text"
+                            id="titleInput"
+                            placeholder="Título (mín. 3 letras)"
+                        />
+                        <input
+                            type="text"
+                            id="descInput"
+                            placeholder="Descrição"
+                        />
+                        <input
+                            type="text"
+                            id="urlInput"
+                            placeholder="URL da imagem"
+                        />
+                    </div>
+                    <div class="create-foot">
+                        <button class="btn" onclick="toggleCreate()">
+                            Cancelar
+                        </button>
+                        <button class="btn btn-red" onclick="criarPin()">
+                            <i class="ph ph-paper-plane-tilt"></i> Enviar
+                            mutation
+                        </button>
+                    </div>
+                </div>
             </div>
-        </div>
+
+            <div class="section-head">
+                <h2>Feed principal</h2>
+                <button class="btn" onclick="carregarFeed()">
+                    <i class="ph ph-arrows-clockwise"></i> Atualizar
+                </button>
+            </div>
+            <div id="feedContainer"></div>
+        </main>
+
+        <div class="toast-area" id="toastArea"></div>
 
         <script>
             const GRAPHQL_URL = "http://localhost:8080/graphql";
+            let createOpen = false;
+            let darkMode = false;
 
-            async function carregarFeed() {
-                const queryGraphQL = {
-                    query: `
-                    query {
-                        mainFeed {
-                            id
-                            title
-                            imageUrl
-                            likesCount
-                        }
-                    }
-                `,
-                };
-
-                try {
-                    const response = await fetch(GRAPHQL_URL, {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify(queryGraphQL),
-                    });
-                    const res = await response.json();
-                    const pins = res.data.mainFeed;
-
-                    const container = document.getElementById("feedContainer");
-                    container.innerHTML = ""; // Limpa o feed antigo
-
-                    pins.forEach((pin) => {
-                        container.innerHTML += `
-                        <div class="bg-gray-50 p-4 rounded-lg border shadow-sm flex flex-col justify-between">
-                            <img src="${pin.imageUrl}" alt="${pin.title}" class="w-full h-40 object-cover rounded mb-2 onerror="this.src='https://placehold.co/400'">
-                            <h3 class="font-bold text-gray-800">${pin.title}</h3>
-                            <p class="text-sm text-gray-500 mt-1">❤️ ${pin.likesCount} curtidas</p>
-                        </div>
-                    `;
-                    });
-                } catch (err) {
-                    console.error("Erro ao carregar feed:", err);
-                }
+            function toggleTheme() {
+                darkMode = !darkMode;
+                document.documentElement.dataset.theme = darkMode ? "dark" : "";
+                document.getElementById("themeIcon").className = darkMode
+                    ? "ph ph-sun"
+                    : "ph ph-moon";
             }
 
-            async function criarPin() {
-                const title = document.getElementById("titleInput").value;
-                const description = document.getElementById("descInput").value;
-                const imageUrl = document.getElementById("urlInput").value;
+            function toggleCreate() {
+                createOpen = !createOpen;
+                document.getElementById("createBody").className =
+                    "create-body" + (createOpen ? " open" : "");
+                document.getElementById("chevron").className =
+                    "chevron" + (createOpen ? " open" : "");
+            }
 
-                const mutationGraphQL = {
-                    query: `
-                    mutation {
-                        createPin(data: {
-                            title: "${title}",
-                            description: "${description}",
-                            imageUrl: "${imageUrl}"
-                        }) {
-                            id
-                            title
-                        }
-                    }
-                `,
-                };
-
-                try {
-                    const response = await fetch(GRAPHQL_URL, {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify(mutationGraphQL),
+            function toast(msg, type) {
+                type = type || "ok";
+                var area = document.getElementById("toastArea");
+                var el = document.createElement("div");
+                el.className = "toast " + type;
+                var icon =
+                    type === "ok" ? "ph-check-circle" : "ph-warning-circle";
+                el.innerHTML =
+                    '<i class="ph ' + icon + '"></i><span>' + msg + "</span>";
+                area.appendChild(el);
+                requestAnimationFrame(function () {
+                    requestAnimationFrame(function () {
+                        el.classList.add("show");
                     });
-                    const res = await response.json();
+                });
+                setTimeout(function () {
+                    el.classList.remove("show");
+                    setTimeout(function () {
+                        el.remove();
+                    }, 300);
+                }, 3000);
+            }
 
-                    if (res.errors) {
-                        alert("Erro de Validação: " + res.errors[0].message);
-                        return;
-                    }
+            function pinHeight(seed) {
+                var heights = [150, 190, 220, 170, 200, 240, 160, 210];
+                var n = 0;
+                for (var i = 0; i < seed.length; i++) n += seed.charCodeAt(i);
+                return heights[n % heights.length];
+            }
 
-                    alert("Pin criado com sucesso!");
-                    document.getElementById("titleInput").value = "";
-                    document.getElementById("descInput").value = "";
-                    document.getElementById("urlInput").value = "";
+            function renderSkeletons() {
+                var heights = [190, 150, 220, 170, 200, 160, 210, 180];
+                var html = '<div class="skel-feed">';
+                heights.forEach(function (h) {
+                    html +=
+                        '<div class="skel-card">' +
+                        '<div class="skel-img" style="height:' +
+                        h +
+                        'px"></div>' +
+                        '<div class="skel-body">' +
+                        '<div class="skel-line" style="width:68%"></div>' +
+                        '<div class="skel-line" style="width:38%"></div>' +
+                        "</div>" +
+                        "</div>";
+                });
+                html += "</div>";
+                return html;
+            }
 
-                    carregarFeed();
-                } catch (err) {
-                    console.error("Erro ao criar pin:", err);
+            function renderFeed(pins) {
+                if (!pins || !pins.length) {
+                    return (
+                        '<div class="empty">' +
+                        '<i class="ph ph-push-pin"></i>' +
+                        "<p>Nenhum pin ainda. Crie o primeiro.</p>" +
+                        "</div>"
+                    );
                 }
+                var html = '<div class="feed">';
+                pins.forEach(function (p) {
+                    var h = pinHeight(p.imageUrl || p.id || p.title || "pin");
+                    var img = p.imageUrl
+                        ? '<img src="' +
+                          p.imageUrl +
+                          '" alt="' +
+                          p.title +
+                          '" style="height:' +
+                          h +
+                          'px" loading="lazy" ' +
+                          "onerror=\"this.outerHTML='<div class=pin-ph style=height:" +
+                          h +
+                          "px><i class=ph.ph-image-broken></i></div>'\">"
+                        : '<div class="pin-ph" style="height:' +
+                          h +
+                          'px"><i class="ph ph-image"></i></div>';
+                    html +=
+                        '<div class="pin">' +
+                        img +
+                        '<div class="pin-body">' +
+                        '<p class="pin-title">' +
+                        p.title +
+                        "</p>" +
+                        '<span class="pin-likes"><i class="ph ph-heart"></i>' +
+                        p.likesCount +
+                        "</span>" +
+                        "</div>" +
+                        "</div>";
+                });
+                html += "</div>";
+                return html;
+            }
+
+            function carregarFeed() {
+                var c = document.getElementById("feedContainer");
+                c.innerHTML = renderSkeletons();
+                fetch(GRAPHQL_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        query: "query { mainFeed { id title imageUrl likesCount } }",
+                    }),
+                })
+                    .then(function (r) {
+                        return r.json();
+                    })
+                    .then(function (d) {
+                        c.innerHTML = renderFeed(d.data && d.data.mainFeed);
+                    })
+                    .catch(function () {
+                        c.innerHTML =
+                            '<div class="empty">' +
+                            '<i class="ph ph-wifi-slash"></i>' +
+                            "<p>Não foi possível conectar ao servidor GraphQL.</p>" +
+                            "</div>";
+                    });
+            }
+
+            function criarPin() {
+                var title = document.getElementById("titleInput").value.trim();
+                var desc = document.getElementById("descInput").value.trim();
+                var url = document.getElementById("urlInput").value.trim();
+
+                if (title.length < 3) {
+                    toast("Título precisa de pelo menos 3 letras.", "err");
+                    return;
+                }
+
+                var mutation =
+                    'mutation { createPin(data: { title: "' +
+                    title +
+                    '", description: "' +
+                    desc +
+                    '", imageUrl: "' +
+                    url +
+                    '" }) { id title } }';
+                fetch(GRAPHQL_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ query: mutation }),
+                })
+                    .then(function (r) {
+                        return r.json();
+                    })
+                    .then(function (d) {
+                        if (d.errors) {
+                            toast(d.errors[0].message, "err");
+                            return;
+                        }
+                        toast("Pin criado.");
+                        ["titleInput", "descInput", "urlInput"].forEach(
+                            function (id) {
+                                document.getElementById(id).value = "";
+                            },
+                        );
+                        toggleCreate();
+                        carregarFeed();
+                    })
+                    .catch(function () {
+                        toast("Erro ao criar pin.", "err");
+                    });
             }
 
             carregarFeed();
