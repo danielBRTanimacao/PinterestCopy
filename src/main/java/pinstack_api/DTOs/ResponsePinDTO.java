@@ -1,5 +1,6 @@
 package pinstack_api.DTOs;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import pinstack_api.entities.PinEntity;
@@ -11,7 +12,7 @@ public record ResponsePinDTO(
     String imageUrl,
     int likesCount,
     LocalDateTime createdAt
-) {
+) implements Serializable {
     public static ResponsePinDTO fromEntity(PinEntity pin) {
         return new ResponsePinDTO(
             pin.getId(),

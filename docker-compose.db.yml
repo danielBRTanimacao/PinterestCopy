@@ -11,6 +11,7 @@ services:
 
     cache:
         image: redis:latest
+        command: redis-server --requirepass password
         container_name: pinstack-redis
         ports:
             - "6379:6379"
