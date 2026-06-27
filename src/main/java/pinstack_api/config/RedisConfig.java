@@ -18,7 +18,6 @@ public class RedisConfig {
 
     @Bean
     public CacheManager cacheManager(RedisConnectionFactory connectionFactory) {
-
         GenericJacksonJsonRedisSerializer serializer = GenericJacksonJsonRedisSerializer
             .builder()
             .build();
