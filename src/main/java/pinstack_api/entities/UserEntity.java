@@ -21,8 +21,16 @@ public class UserEntity {
     private String email;
     private String password;
 
+    private String verificationCode;
+    private boolean isVerified;
+
     @CreatedDate
     private LocalDateTime createdAt;
     @LastModifiedDate 
     private LocalDateTime updatedAt;
+
+    protected boolean isVerificationCodeExpired() {
+        if (this.createdAt == null) return true;
+        return LocalDateTime.now().isAfter(this.createdAt.plusMinutes(15L));
+    }
 }
