@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Getter
@@ -18,12 +19,16 @@ public class PinEntity {
     @Id
     private String id;
 
+    @Indexed
+    private String userId;
+
     private String title;
     private String description;
     private String imageUrl;
     private int likesCount = 0;
 
-    @CreatedDate 
+    @CreatedDate
+    @Indexed
     private LocalDateTime createdAt;
 
     @LastModifiedDate 
