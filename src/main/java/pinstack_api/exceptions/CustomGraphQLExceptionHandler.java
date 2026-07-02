@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.support.WebExchangeBindException;
 
 import pinstack_api.exceptions.raises.NotFoundException;
+import pinstack_api.exceptions.raises.TokenException;
+
 import org.springframework.graphql.execution.ErrorType;
 
 @ControllerAdvice
@@ -43,6 +45,14 @@ public class CustomGraphQLExceptionHandler {
         return GraphqlErrorBuilder.newError(env)
                 .errorType(ErrorType.INTERNAL_ERROR)
                 .message("Internal server error: " + ex.getMessage())
+                .build();
+    }
+
+    @GraphQlExceptionHandler(TokenException.class)
+    public GraphQLError handleTokenException(TokenException ex, DataFetchingEnvironment env) {
+        return GraphqlErrorBuilder.newError(env)
+                .errorType(ErrorType.UNAUTHORIZED)
+                .message("Token validation failed: " + ex.getMessage())
                 .build();
     }
 
