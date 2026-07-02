@@ -7,6 +7,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 
 import jakarta.validation.Valid;
@@ -39,6 +40,7 @@ public class PinGraphQLControllerImpl implements PinGraphQLController {
 
     @Override
     @MutationMapping
+    @PreAuthorize("hasRole('USER')")
     @CacheEvict(value = "pinsFeed", allEntries = true)
     public ResponsePinDTO createPin(@Argument @Valid RequestPinDTO data) {
         return service.savePin(data);
