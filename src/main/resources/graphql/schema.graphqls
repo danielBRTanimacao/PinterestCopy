@@ -1,3 +1,7 @@
+# ==========================================
+# TIPOS DE ENTIDADE (OBJECT TYPES)
+# ==========================================
+
 type Pin {
     id: ID!
     title: String!
@@ -7,18 +11,55 @@ type Pin {
     createdAt: String
 }
 
+type User {
+    id: ID!
+    username: String!
+    email: String!
+}
+
+# Retorno padrão após se registrar ou logar
+type AuthResponse {
+    user: User!
+    token: String!
+}
+
+# ==========================================
+# INPUTS (DADOS DE ENTRADA)
+# ==========================================
+
 input RequestPinInput {
     title: String!
     description: String
     imageUrl: String!
 }
 
+input RegisterInput {
+    username: String!
+    email: String!
+    password: String!
+}
+
+input LoginInput {
+    username: String!
+    password: String!
+}
+
+# ==========================================
+# OPERAÇÕES (QUERIES E MUTATIONS)
+# ==========================================
+
 type Query {
+    # Pins
     mainFeed: [Pin!]!
     pinById(id: ID!): Pin
 }
 
 type Mutation {
+    # Pins
     createPin(data: RequestPinInput!): Pin!
     likePin(id: ID!): Int!
+
+    # Autenticação (Novos Endpoints)
+    register(data: RegisterInput!): AuthResponse!
+    login(data: LoginInput!): AuthResponse!
 }
