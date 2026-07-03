@@ -1,5 +1,8 @@
 package pinstack_api.DTOs.auth;
 
-public record RequestAuthDTO() {
+public record RequestAuthDTO(
+    String email,
+    String password
+) {
     
 }
