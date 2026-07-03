@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import pinstack_api.DTOs.auth.AuthResponseDTO;
 import pinstack_api.DTOs.auth.LoginAuthDTO;
 import pinstack_api.DTOs.auth.RequestAuthDTO;
+import pinstack_api.entities.UserEntity;
 import pinstack_api.repositories.UserRepository;
 import pinstack_api.services.AuthService;
 import pinstack_api.services.auth.TokenService;
@@ -23,6 +24,10 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthResponseDTO register(RequestAuthDTO data) {
+        UserEntity user = new UserEntity();
+        user.setEmail(data.email());
+        user.setPassword(passwordEncoder.encode(data.password()));
+        repository.save(user);
         throw new UnsupportedOperationException("Unimplemented method 'register'");
     }
     @Override
