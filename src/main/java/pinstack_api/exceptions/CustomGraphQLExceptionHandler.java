@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.support.WebExchangeBindException;
 
 import pinstack_api.exceptions.raises.NotFoundException;
+import pinstack_api.exceptions.raises.PermissionDeniedException;
 import pinstack_api.exceptions.raises.TokenException;
 
 import org.springframework.graphql.execution.ErrorType;
@@ -30,13 +31,21 @@ public class CustomGraphQLExceptionHandler {
                 .errorType(ErrorType.BAD_REQUEST)
                 .message(errorMessage)
                 .build();
-}
+    }
 
     @GraphQlExceptionHandler(IllegalArgumentException.class)
     public GraphQLError handleIllegalArgument(IllegalArgumentException ex, DataFetchingEnvironment env) {
         return GraphqlErrorBuilder.newError(env)
                 .errorType(ErrorType.BAD_REQUEST)
                 .message(ex.getMessage())
+                .build();
+    }
+
+    @GraphQlExceptionHandler(PermissionDeniedException.class)
+    public GraphQLError handlePermissionDenied(PermissionDeniedException ex, DataFetchingEnvironment env) {
+        return GraphqlErrorBuilder.newError(env)
+                .errorType(ErrorType.FORBIDDEN)
+                .message("Permission denied: " + ex.getMessage())
                 .build();
     }
 

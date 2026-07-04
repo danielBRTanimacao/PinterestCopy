@@ -6,7 +6,7 @@ public class NotFoundException extends RuntimeException {
         super(msg);
     }
 
-    public NotFoundException(String msg, Throwable err) {
-        super(msg, err);
+    public NotFoundException(String msg, Throwable cause) {
+        super(msg, cause);
     }
 }
