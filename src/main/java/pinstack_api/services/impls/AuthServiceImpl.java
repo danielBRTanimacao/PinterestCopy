@@ -13,6 +13,7 @@ import pinstack_api.DTOs.auth.RequestAuthDTO;
 import pinstack_api.DTOs.auth.ResponseJwtDTO;
 import pinstack_api.entities.UserEntity;
 import pinstack_api.exceptions.raises.NotFoundException;
+import pinstack_api.exceptions.raises.PermissionDeniedException;
 import pinstack_api.repositories.UserRepository;
 import pinstack_api.services.AuthService;
 import pinstack_api.services.auth.TokenService;
@@ -63,11 +64,11 @@ public class AuthServiceImpl implements AuthService {
                 .orElseThrow(() -> new NotFoundException("Invalid username/email or password"));
 
         if (!user.isVerified()) {
-            throw new RuntimeException("Please verify your account before logging in.");
+            throw new PermissionDeniedException("Please verify your account before logging in.");
         }
 
         if (!passwordEncoder.matches(data.password(), user.getPassword())) {
-            throw new RuntimeException("Invalid username/email or password");
+            throw new PermissionDeniedException("Invalid username/email or password");
         }
         log.info("User {} authenticated successfully. Generating session...", user.getUsername());
 
