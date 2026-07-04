@@ -4,5 +4,5 @@ import pinstack_api.DTOs.auth.*;
 
 public interface AuthService {
     AuthResponseDTO register(RequestAuthDTO data);
-    AuthResponseDTO login(LoginAuthDTO data);
+    ResponseJwtDTO login(LoginAuthDTO data);
 }

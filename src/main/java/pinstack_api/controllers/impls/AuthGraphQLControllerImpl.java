@@ -3,6 +3,7 @@ package pinstack_api.controllers.impls;
 import pinstack_api.DTOs.auth.AuthResponseDTO;
 import pinstack_api.DTOs.auth.LoginAuthDTO;
 import pinstack_api.DTOs.auth.RequestAuthDTO;
+import pinstack_api.DTOs.auth.ResponseJwtDTO;
 import pinstack_api.controllers.AuthGraphQLController;
 
 
@@ -14,7 +15,7 @@ public class AuthGraphQLControllerImpl implements AuthGraphQLController {
     }
 
     @Override
-    public AuthResponseDTO login(LoginAuthDTO data) {
+    public ResponseJwtDTO login(LoginAuthDTO data) {
         throw new UnsupportedOperationException("Unimplemented method 'login'");
     }
 }

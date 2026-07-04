@@ -6,8 +6,9 @@ import jakarta.validation.Valid;
 import pinstack_api.DTOs.auth.AuthResponseDTO;
 import pinstack_api.DTOs.auth.LoginAuthDTO;
 import pinstack_api.DTOs.auth.RequestAuthDTO;
+import pinstack_api.DTOs.auth.ResponseJwtDTO;
 
 public interface AuthGraphQLController {
     AuthResponseDTO register(@Argument @Valid RequestAuthDTO data);
-    AuthResponseDTO login(@Argument @Valid LoginAuthDTO data);
+    ResponseJwtDTO login(@Argument @Valid LoginAuthDTO data);
 }

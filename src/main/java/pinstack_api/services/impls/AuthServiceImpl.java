@@ -4,14 +4,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
-import java.util.Random;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pinstack_api.DTOs.auth.AuthResponseDTO;
 import pinstack_api.DTOs.auth.LoginAuthDTO;
 import pinstack_api.DTOs.auth.RequestAuthDTO;
+import pinstack_api.DTOs.auth.ResponseJwtDTO;
 import pinstack_api.entities.UserEntity;
+import pinstack_api.exceptions.raises.NotFoundException;
 import pinstack_api.repositories.UserRepository;
 import pinstack_api.services.AuthService;
 import pinstack_api.services.auth.TokenService;
@@ -55,8 +56,23 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public AuthResponseDTO login(LoginAuthDTO data) {
-        throw new UnsupportedOperationException("Unimplemented method 'login'");
+    public ResponseJwtDTO login(LoginAuthDTO data) {
+        log.info("Login attempt for user/email: {}", data.nameOrEmail());
+
+        UserEntity user = repository.findByUsernameOrEmail(data.nameOrEmail())
+                .orElseThrow(() -> new NotFoundException("Invalid username/email or password"));
+
+        if (!user.isVerified()) {
+            throw new RuntimeException("Please verify your account before logging in.");
+        }
+
+        if (!passwordEncoder.matches(data.password(), user.getPassword())) {
+            throw new RuntimeException("Invalid username/email or password");
+        }
+        log.info("User {} authenticated successfully. Generating session...", user.getUsername());
+
+        String jwtToken = service.generateToken(user);
+        return new ResponseJwtDTO(jwtToken);
     }
 
 }
