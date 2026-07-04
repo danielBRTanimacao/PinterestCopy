@@ -33,7 +33,6 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/graphiql", "/graphiql/**").permitAll()
-                        .requestMatchers("/", "/index.html", "/static/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/graphql").permitAll()
                         .anyRequest().authenticated()
                 )

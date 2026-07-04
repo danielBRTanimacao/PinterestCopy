@@ -61,12 +61,13 @@ public class AuthServiceImpl implements AuthService {
         log.info("Login attempt for user/email: {}", data.nameOrEmail());
 
         UserEntity user = repository.findByUsernameOrEmail(data.nameOrEmail())
-                .orElseThrow(() -> new NotFoundException("Invalid username/email or password"));
+                .orElseThrow(
+                    () -> new NotFoundException("Invalid username/email or password")
+        );
 
         if (!user.isVerified()) {
             throw new PermissionDeniedException("Please verify your account before logging in.");
         }
-
         if (!passwordEncoder.matches(data.password(), user.getPassword())) {
             throw new PermissionDeniedException("Invalid username/email or password");
         }
