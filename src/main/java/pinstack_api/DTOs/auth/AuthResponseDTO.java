@@ -1,5 +1,11 @@
 package pinstack_api.DTOs.auth;
 
-public record AuthResponseDTO() {
+import java.time.LocalDateTime;
+
+public record AuthResponseDTO(
+    String username, 
+    String email, 
+    LocalDateTime codeExpiresAt
+) {
     
 }

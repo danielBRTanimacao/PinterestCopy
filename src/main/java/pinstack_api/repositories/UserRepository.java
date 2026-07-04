@@ -8,4 +8,5 @@ import pinstack_api.entities.UserEntity;
 public interface UserRepository extends MongoRepository<UserEntity, String> {
     Optional<UserEntity> findByUsernameOrEmail(String usernameOrMail);
     Optional<UserEntity> findByUsername(String username);
+    Optional<UserEntity> findByEmail(String email);
 }
