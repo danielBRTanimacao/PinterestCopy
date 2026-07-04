@@ -1,7 +1,10 @@
 package pinstack_api.controllers.impls;
 
+import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.stereotype.Controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import pinstack_api.DTOs.auth.AuthResponseDTO;
@@ -19,12 +22,16 @@ public class AuthGraphQLControllerImpl implements AuthGraphQLController {
     private final AuthService service;
 
     @Override
-    public AuthResponseDTO register(RequestAuthDTO data) {
+    @MutationMapping
+    public AuthResponseDTO register(@Argument @Valid RequestAuthDTO data) {
+        log.info("GraphQL Mutation: register requested for email: {}", data.email());
         return service.register(data);
     }
 
     @Override
-    public ResponseJwtDTO login(LoginAuthDTO data) {
+    @MutationMapping
+    public ResponseJwtDTO login(@Argument @Valid LoginAuthDTO data) {
+        log.info("GraphQL Mutation: login requested for username: {}", data.nameOrEmail());
         return service.login(data);
     }
 }
