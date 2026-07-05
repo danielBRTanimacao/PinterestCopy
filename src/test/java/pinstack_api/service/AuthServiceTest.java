@@ -35,13 +35,10 @@ class AuthServiceTest {
 
     @Mock
     private UserRepository repository;
-
     @Mock
     private PasswordEncoder passwordEncoder;
-
     @Mock
     private TokenGenerator generator;
-
     @Mock
     private TokenService tokenService;
 
@@ -93,7 +90,7 @@ class AuthServiceTest {
         UserEntity userMock = new UserEntity();
         userMock.setUsername("teste");
         userMock.setPassword("senha-hasheada");
-        userMock.setVerified(true); // O usuário DEVE estar verificado para passar
+        userMock.setVerified(true);
 
         when(repository.findByUsernameOrEmail(request.nameOrEmail())).thenReturn(Optional.of(userMock));
         when(passwordEncoder.matches(request.password(), userMock.getPassword())).thenReturn(true);
@@ -123,7 +120,7 @@ class AuthServiceTest {
         LoginAuthDTO request = new LoginAuthDTO("teste@pinstack.com", "senha123");
         
         UserEntity userMock = new UserEntity();
-        userMock.setVerified(false); // Usuário não verificou o e-mail
+        userMock.setVerified(false);
 
         when(repository.findByUsernameOrEmail(request.nameOrEmail())).thenReturn(Optional.of(userMock));
 
