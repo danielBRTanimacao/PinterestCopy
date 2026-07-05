@@ -24,6 +24,8 @@ services:
             - cache
         ports:
             - "8080:8080"
+        env_file:
+            - .env
         environment:
             - SPRING_DATA_MONGODB_URI=mongodb://mongo:password@db:27017/pinstack?authSource=admin
             - SPRING_DATA_REDIS_HOST=cache
