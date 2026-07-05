@@ -10,7 +10,7 @@ services:
             - "27017:27017"
 
     cache:
-        image: redis:latest
+        image: redis/redis-stack:latest
         command: redis-server --requirepass password
         container_name: pinstack-redis
         ports:

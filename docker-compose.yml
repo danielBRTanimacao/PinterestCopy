@@ -10,14 +10,32 @@ services:
             - "27017:27017"
 
     cache:
-        image: redis:latest
+        image: redis/redis-stack:latest
         container_name: pinstack-redis
+        command: redis-server --requirepass password
         ports:
             - "6379:6379"
 
     app:
         build: .
+        container_name: pinstack-app
         depends_on:
             - db
+            - cache
         ports:
             - "8080:8080"
+        environment:
+            - SPRING_DATA_MONGODB_URI=mongodb://mongo:password@db:27017/pinstack?authSource=admin
+            - SPRING_DATA_REDIS_HOST=cache
+            - SPRING_DATA_REDIS_PORT=6379
+            - SPRING_DATA_REDIS_PASSWORD=password
+
+    nginx:
+        image: nginx:latest
+        container_name: pinstack-nginx
+        ports:
+            - "80:80"
+        volumes:
+            - ./nginx.conf:/etc/nginx/nginx.conf
+        depends_on:
+            - app
