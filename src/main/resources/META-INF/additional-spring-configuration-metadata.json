@@ -4,6 +4,11 @@
             "name": "api.security.token.secret",
             "type": "java.lang.String",
             "description": "JWT token secret for API security"
+        },
+        {
+            "name": "app.cors.allowed-origins",
+            "type": "java.lang.String",
+            "description": "Configuration for allowed origins in CORS settings"
         }
     ]
 }
