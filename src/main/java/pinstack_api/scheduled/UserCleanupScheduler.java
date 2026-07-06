@@ -13,20 +13,18 @@ import pinstack_api.repositories.UserRepository;
 @RequiredArgsConstructor
 @Slf4j
 public class UserCleanupScheduler {
-
     private final UserRepository repository;
 
     @Scheduled(fixedRate = 900000) 
     public void cleanUpExpiredUnverifiedUsers() {
-        log.info("Iniciando limpeza de usuários não verificados com código expirado...");
-        
+        log.info("Starting cleanup of unverified users with expired code...");
         try {
             LocalDateTime now = LocalDateTime.now();
             repository.deleteByVerifiedFalseAndCodeExpiresAtBefore(now);
             
-            log.info("Limpeza de usuários inativos concluída com sucesso.");
+            log.info("Cleanup of inactive users completed successfully.");
         } catch (Exception e) {
-            log.error("Erro durante a limpeza de usuários expirados: {}", e.getMessage());
+            log.error("Error during cleanup of expired users: {}", e.getMessage());
         }
     }
 }
