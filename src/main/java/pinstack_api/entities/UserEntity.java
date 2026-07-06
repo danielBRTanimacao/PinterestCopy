@@ -26,7 +26,7 @@ public class UserEntity {
     private String password;
 
     private String verificationCode;
-    private boolean isVerified = false;
+    private boolean verified = false;
     private int verificationAttempts = 0;
     
     private LocalDateTime codeExpiresAt;
