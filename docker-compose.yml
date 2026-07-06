@@ -12,9 +12,11 @@ services:
     cache:
         image: redis/redis-stack:latest
         container_name: pinstack-redis
-        command: redis-server --requirepass password
+        environment:
+            - REDIS_ARGS=--requirepass password
         ports:
             - "6379:6379"
+            - "8001:8001"
 
     app:
         build: .
