@@ -24,7 +24,8 @@ public class PinServiceImpl implements PinService{
 
     @Override
     public ResponsePinDTO getSpecificPin(String id) {
-        PinEntity data = repository.findById(id).orElseThrow(() -> new NotFoundException("Pin with this id not found " + id));
+        PinEntity data = repository.findById(id).orElseThrow(
+            () -> new NotFoundException("Pin with this id not found " + id));
         return ResponsePinDTO.fromEntity(data);
     }
 
