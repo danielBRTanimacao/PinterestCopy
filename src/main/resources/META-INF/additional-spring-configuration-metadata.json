@@ -9,6 +9,11 @@
             "name": "app.cors.allowed-origins",
             "type": "java.lang.String",
             "description": "Configuration for allowed origins in CORS settings"
+        },
+        {
+            "name": "spring.mail.host",
+            "type": "java.lang.String",
+            "description": "SMTP server host for sending emails"
         }
     ]
 }
