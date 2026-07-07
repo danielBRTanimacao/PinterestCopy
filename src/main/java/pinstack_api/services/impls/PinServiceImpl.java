@@ -29,7 +29,7 @@ public class PinServiceImpl implements PinService{
     }
 
     @Override
-    public ResponsePinDTO savePin(RequestPinDTO data) {
+    public ResponsePinDTO savePin(RequestPinDTO data, String id) {
         PinEntity entity = RequestPinDTO.toSaveEntity(data);
 
         repository.save(entity);
@@ -38,7 +38,7 @@ public class PinServiceImpl implements PinService{
     }
 
     @Override
-    public int likePinById(String id) {
+    public int likePinById(String id, String userId) {
         PinEntity pin = repository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Pin not found with id: " + id));
         
