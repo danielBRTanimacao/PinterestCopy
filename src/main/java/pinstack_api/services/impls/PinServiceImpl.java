@@ -30,10 +30,9 @@ public class PinServiceImpl implements PinService{
 
     @Override
     public ResponsePinDTO savePin(RequestPinDTO data, String id) {
-        PinEntity entity = RequestPinDTO.toSaveEntity(data);
+        PinEntity entity = RequestPinDTO.toSaveEntity(data, id);
 
         repository.save(entity);
-
         return ResponsePinDTO.fromEntity(entity);
     }
 
@@ -41,10 +40,9 @@ public class PinServiceImpl implements PinService{
     public int likePinById(String id, String userId) {
         PinEntity pin = repository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Pin not found with id: " + id));
-        
         pin.setLikesCount(pin.getLikesCount() + 1);
+
         repository.save(pin);
-        
         return pin.getLikesCount();
     }
     

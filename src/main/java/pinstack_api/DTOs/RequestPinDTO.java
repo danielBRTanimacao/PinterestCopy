@@ -18,8 +18,9 @@ public record RequestPinDTO(
     @URL(message = "The image URL must be a valid link.")
     String imageUrl
 ) {
-    public static PinEntity toSaveEntity(RequestPinDTO dto) {
+    public static PinEntity toSaveEntity(RequestPinDTO dto, String userId) {
         PinEntity pin = new PinEntity();
+        pin.setUserId(userId);
         pin.setTitle(dto.title());
         pin.setDescription(dto.description());
         pin.setImageUrl(dto.imageUrl());
