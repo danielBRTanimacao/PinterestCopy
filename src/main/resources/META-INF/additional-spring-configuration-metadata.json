@@ -14,6 +14,31 @@
             "name": "spring.mail.host",
             "type": "java.lang.String",
             "description": "SMTP server host for sending emails"
+        },
+        {
+            "name": "spring.mail.port",
+            "type": "java.lang.String",
+            "description": "SMTP server port for sending emails"
+        },
+        {
+            "name": "spring.mail.username",
+            "type": "java.lang.String",
+            "description": "Username for SMTP server authentication"
+        },
+        {
+            "name": "spring.mail.password",
+            "type": "java.lang.String",
+            "description": "Password for SMTP server authentication"
+        },
+        {
+            "name": "spring.mail.properties.mail.smtp.auth",
+            "type": "java.lang.String",
+            "description": "property to enable SMTP authentication for sending emails"
+        },
+        {
+            "name": "spring.mail.properties.mail.smtp.starttls.enable",
+            "type": "java.lang.String",
+            "description": "property to enable STARTTLS for sending emails"
         }
     ]
 }
