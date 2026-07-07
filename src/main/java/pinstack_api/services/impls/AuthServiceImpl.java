@@ -17,6 +17,7 @@ import pinstack_api.exceptions.raises.PermissionDeniedException;
 import pinstack_api.repositories.UserRepository;
 import pinstack_api.services.AuthService;
 import pinstack_api.services.auth.TokenService;
+import pinstack_api.utils.components.EmailSender;
 import pinstack_api.utils.components.TokenGenerator;
 
 
@@ -27,13 +28,14 @@ public class AuthServiceImpl implements AuthService {
 
     private final UserRepository repository;
     private final PasswordEncoder passwordEncoder;
+
     private final TokenGenerator generator;
+    private final EmailSender emailSender;
     private final TokenService service;
 
     @Override
     public AuthResponseDTO register(RequestAuthDTO data) {
         log.info("Starting registration for email: {}", data.email());
-
         if (repository.findByEmail(data.email()).isPresent()) {
             throw new RuntimeException("Email already registered");
         }
@@ -43,23 +45,22 @@ public class AuthServiceImpl implements AuthService {
         user.setEmail(data.email());
         user.setPassword(passwordEncoder.encode(data.password()));
 
-        // ===========================================================
-        //  ENVIAR O EMAIL NESSA PARTE AQUI AINDA VOU FAZER ESSA GOTA
-        // ===========================================================
-        user.setVerificationCode(generator.generateToken());
+        String verificationCode = generator.generateToken();
+
+        emailSender.sendVerificationEmail(user.getEmail(), verificationCode);
+
+        user.setVerificationCode(verificationCode);
         user.setCodeExpiresAt(LocalDateTime.now().plusMinutes(15));
         user.setVerified(false);
 
         repository.save(user);
         log.info("User successfully registered. Verification code generated.");
-
         return new AuthResponseDTO(user.getUsername(), user.getEmail(), user.getCodeExpiresAt());
     }
 
     @Override
     public ResponseJwtDTO login(LoginAuthDTO data) {
         log.info("Login attempt for user/email: {}", data.nameOrEmail());
-
         UserEntity user = repository.findByUsernameOrEmail(data.nameOrEmail())
                 .orElseThrow(
                     () -> new NotFoundException("Invalid username/email or password")
@@ -72,7 +73,6 @@ public class AuthServiceImpl implements AuthService {
             throw new PermissionDeniedException("Invalid username/email or password");
         }
         log.info("User {} authenticated successfully. Generating session...", user.getUsername());
-
         String jwtToken = service.generateToken(user);
         return new ResponseJwtDTO(jwtToken);
     }
