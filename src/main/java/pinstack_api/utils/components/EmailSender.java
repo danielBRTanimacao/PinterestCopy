@@ -24,7 +24,7 @@ public class EmailSender {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(fromEmail);
         message.setTo(email);
-        message.setSubject("Varificando email");
+        message.setSubject("Verificando email");
         message.setText("Copie esse codigo e cole: " + verificationCode);
         try {
             mailSender.send(message);

@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="pt">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Verificando email</title>
+        <style>
+            * {
+                font-family: Arial, sans-serif;
+                text-align: center;
+                padding: 0;
+                margin: 0;
+            }
+
+            .code {
+                background-color: rgb(237, 237, 237);
+                font-size: 4rem;
+                margin: 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Verificando email</h1>
+        <p>Copie esse codigo e cole:</p>
+        <h3 class="code">
+            <strong th:text="${verificationCode}">hT146</strong>
+        </h3>
+    </body>
+</html>
